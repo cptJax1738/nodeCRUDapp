@@ -10,9 +10,11 @@ app.listen(3000, function() {
 // ^^ App get's and set's are after the init function here ^^ 
 
 app.get('/', (request, response) => {
-	response.send('hello world')
+	//response.send('hello world'); <-- sends back string
+	response.sendFile(__dirname + '/index.html'); // <-- sends back file in dir
 });
 // the above is a standard GET function run when a page is visited by client,
 // in this case it is the index or root page denoted by '/', 
 // the callback function takes two arguements, request and response as objects manipulated.
-// they seem to have prototype functions built in.
+// they seem to have prototype functions built in. 
+// KEY =>> WHENEVER A CLIENT REQUESTS PAGE the ENTIRE function runs.
