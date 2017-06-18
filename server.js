@@ -10,7 +10,8 @@ const app = express();
 // using express is as simple as declaring an instance of the class and requiring it.
 
 app.use(bodyParser.urlencoded({extended: true})); // You must add MIDDLEWARES to EXPRESS by USING them
-app.set('view engine', 'ejs') // view engine is for generating looping templates like poly data structures, you MUST set the view engine in express.
+app.use(express.static('public'));
+app.set('view engine', 'ejs'); // view engine is for generating looping templates like poly data structures, you MUST set the view engine in express.
 
 // ** MAKE SURE TO ADD CRUD HANDLERS AFTER USING STATEMENTS
 
@@ -55,3 +56,9 @@ app.post('/quotes', (req, res) => {
 		res.redirect('/');
 	});
 });
+
+var update = document.getElementById('update');
+
+update.addEventListener('click', function () {
+	// you are at Fetch Request spot.
+})
