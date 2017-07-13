@@ -11,6 +11,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true})); // You must add MIDDLEWARES to EXPRESS by USING them
 app.use(express.static('public'));
+app.use(bodyParser.json())
 app.set('view engine', 'ejs'); // view engine is for generating looping templates like poly data structures, you MUST set the view engine in express.
 
 // ** MAKE SURE TO ADD CRUD HANDLERS AFTER USING STATEMENTS
@@ -57,8 +58,44 @@ app.post('/quotes', (req, res) => {
 	});
 });
 
-var update = document.getElementById('update');
+// Below is the update function using FETCH and Mongo DB. Pretty self explanatory.
+// basically manipulating server to effectively communicate with other machines
+// Node contains the verbiage as a language. effectively runs as JS on server
+// probalby the point of the language given that is its stated goals. Interesting on the function cycle.
+// will look into the way it uses callbacks soon. ON TO DELETE
+app.put('/quotes', (req, res) => {
+	db.collection('quotes').findOneAndUpdate(
+		{name: 'Yoda'},
+		{
+			$set: {
+			name: req.body.name,
+			quote: req.body.quote
+			}
+		},
+		{
+			sort: {_id:-1},
+			upsert: true
+		},
+		(err, result) => {
+			if (err) return res.send(err)
+				res.send(result)
+		}
+	)
+});
 
-update.addEventListener('click', function () {
-	// you are at Fetch Request spot.
+// DELETE FUNCTION
+// here's what I dont understand... Why the eff is the functions HERE when it's client-side
+// so the answer is. YOU ARE A FUCKING IDIOT, and right... Commnet out
+//var del = document.getElementById('delete')
+
+//del.addEventListener(realized err here LOL)
+//Okay, actual Server side delete.
+app.delete('/quotes', (req, res) => {
+	// handle request
+	db.collection('quotes').findOneAndDelete(
+		{name: req.body.name},
+		(err, result) => {
+			if (err) return res.send(500, err)
+			res.send('A darth Vader quote got deleted')
+	})
 })
